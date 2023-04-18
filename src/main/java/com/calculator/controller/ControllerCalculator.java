@@ -1,6 +1,8 @@
 package com.calculator.controller;
 
-import io.corp.calculator.TracerImpl;
+import com.calculator.exception.ValidationException;
+import com.calculator.service.IServiceCalculator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,26 +11,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/calculator")
+@RequestMapping("/api")
 public class ControllerCalculator {
 
-  private final TracerImpl tracer = new TracerImpl();
+  @Autowired
+  private IServiceCalculator iServiceCalculator;
 
-  @GetMapping(value = "/addition")
-  public ResponseEntity<String> addition(@RequestParam(name = "firstNumber") final Integer firstNumber,
-      @RequestParam(name = "secondNumber") final Integer secondNumber) {
-    final int sum = firstNumber + secondNumber;
-    final String result = "Suma: " + firstNumber + " + " + secondNumber + " = " + sum;
-    tracer.trace(result);
-    return new ResponseEntity<>(result, HttpStatus.OK);
-  }
-
-  @GetMapping(value = "/subtract")
-  public ResponseEntity<String> subtract(@RequestParam(name = "firstNumber") final Integer firstNumber,
-      @RequestParam(name = "secondNumber") final Integer secondNumber) {
-    final int rest = firstNumber - secondNumber;
-    final String result = "Resta: " + firstNumber + " - " + secondNumber + " = " + rest;
-    tracer.trace(result);
-    return new ResponseEntity<>(result, HttpStatus.OK);
+  @GetMapping(value = "/calculator")
+  public ResponseEntity<String> calculator(@RequestParam(name = "firstNumber") final Integer firstNumber,
+      @RequestParam(name = "secondNumber") final Integer secondNumber, @RequestParam(name = "operation") final String operation) {
+    try {
+      final String response = this.iServiceCalculator.execute(firstNumber, secondNumber, operation);
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (ValidationException e) {
+      return new ResponseEntity<>(e.getMsg(), HttpStatus.BAD_REQUEST);
+    }
   }
 }
