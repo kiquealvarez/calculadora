@@ -18,8 +18,8 @@ public class ControllerCalculator {
   private IServiceCalculator iServiceCalculator;
 
   @GetMapping(value = "/calculator")
-  public ResponseEntity<String> calculator(@RequestParam(name = "firstNumber") final Integer firstNumber,
-      @RequestParam(name = "secondNumber") final Integer secondNumber, @RequestParam(name = "operation") final String operation) {
+  public ResponseEntity<String> calculator(@RequestParam(name = "firstNumber") final int firstNumber,
+      @RequestParam(name = "secondNumber") final int secondNumber, @RequestParam(name = "operation") final String operation) {
     try {
       final String response = this.iServiceCalculator.execute(firstNumber, secondNumber, operation);
       return new ResponseEntity<>(response, HttpStatus.OK);
