@@ -10,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = ServiceCalculatorTestApplication.class)
-class ServiceCalculatorTestApplication {
+@ContextConfiguration(classes = ServiceCalculatorTest.class)
+class ServiceCalculatorTest {
 
   @InjectMocks
   private IServiceCalculator serviceCalculator = new ServiceCalculatorImpl();

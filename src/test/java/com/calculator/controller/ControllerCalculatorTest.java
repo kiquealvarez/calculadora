@@ -15,8 +15,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = ControllerCalculatorTestApplication.class)
-class ControllerCalculatorTestApplication {
+@ContextConfiguration(classes = ControllerCalculatorTest.class)
+class ControllerCalculatorTest {
 
   @Mock
   private IServiceCalculator iServiceCalculator;
